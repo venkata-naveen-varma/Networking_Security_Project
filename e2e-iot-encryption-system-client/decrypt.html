@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TEA Algorithm</title>
+    <style>
+      body {
+        background-image: url('background.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: Arial, sans-serif;
+        color: #333;
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 36px;
+        margin-top: 0;
+      }
+      
+      p {
+        font-size: 18px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        font-size: 16px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      
+      button:hover {
+        background-color: #3e8e41;
+      }
+      
+      input[type=text] {
+        padding: 10px;
+        border-radius: 5px;
+        margin-right: 10px;
+        width: 600px; 
+        height: 190px;
+        border: 1px solid #999999;
+        margin: 5px;
+
+      }
+      
+      input[type=submit] {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      
+      input[type=submit]:hover {
+        background-color: #3e8e41;
+      }
+    </style>
+    	<script>
+      
+		function sendData() {
+			const encrypted_text = document.getElementById("encrypted_txtbox").value;
+      // var myHeaders = new Headers();
+      // myHeaders.append("Content-Type", "application/json");
+      // console.log('encrypted_text', encrypted_text);
+			// fetch('http://localhost:5000/process_data', {
+			// 	method: 'POST',
+			// 	headers: {
+			// 		'Accept': 'application/json',
+			// 		'Content-Type': 'application/json',
+      //     'Access-Control-Allow-Origin', '*'
+			// 	},
+			// 	body: JSON.stringify({data: encrypted_text}),
+      //   // mode: 'no-cors',
+			// })
+			// .then(response => response)
+			// .then(data => {
+			// 	document.getElementById("decrypted_txtbox").value = data.response;
+			// })
+			// .catch((error) => {
+			// 	console.error('Error:', error);
+			// });
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "humidity": "98f634695766c1f9403a16a5f6e0439e",
+  "temperature": "a0dcb30d1d5d77353405ec4d1ce4c30b",
+  "sent_by": "dbf1990f5e4a9ed301ec0f9cbf925fa544f3b823ebf3469d2785d83a3e1b48c4",
+  "timestamp": "fffeb4cfd6b329366fc0ee9fb786f9d75caf5bfffc1a8144283cabb56f04a74082ce182f166a237d"
+});
+  var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow',
+  'Access-Control-Allow-Origin', '*'
+  // mode: 'no-cors'
+};
+
+fetch("http://localhost:5000/process_data", requestOptions)
+  .then(response => response.text())
+			.then(data => {
+				document.getElementById("decrypted_txtbox").value = data.response;
+			})  .catch(error => console.log('error', error));
+
+		}
+	</script>
+  </head>
+  <body>
+    <h1>Privacy and Security in IoT</h1>
+    <h2>E2E encrypted communication!</h2>
+    <p>This service encrypts & decrypt data received from raspberry pi</p>
+      <input type="text" id="encrypted_txtbox" name="encrypted_txtbox" placeholder="Enter your encrypted data">
+      <input type="text" id="decrypted_txtbox" name="decrypted_txtbox" placeholder="Decrypted data">
+      <button onclick="sendData()">Decrypt</button>
+
+    <button>Retrieve Data!</button>
+  </body>
+</html>
